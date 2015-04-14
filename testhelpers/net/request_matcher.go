@@ -45,12 +45,12 @@ func RequestBodyMatcher(expectedBodyString string) RequestMatcher {
 
 		actualBody, err := bytesToInterface(bodyBytes)
 		if err != nil {
-			Fail(fmt.Sprintf("Error unmarshalling request", err.Error()))
+			Fail(fmt.Sprintf("Error unmarshalling request: %s", err))
 		}
 
 		expectedBody, err := bytesToInterface([]byte(expectedBodyString))
 		if err != nil {
-			Fail(fmt.Sprintf("Error unmarshalling expected json", err.Error()))
+			Fail(fmt.Sprintf("Error unmarshalling expected json: %s", err))
 		}
 
 		Expect(actualBody).To(Equal(expectedBody))
