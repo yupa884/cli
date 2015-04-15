@@ -249,7 +249,7 @@ var _ = Describe("Install", func() {
 					It("downloads and installs binary when it is available and checksum matches", func() {
 						runCommand("plugin1", "-r", "repo1")
 
-						Ω(ui.Outputs).To(ContainSubstrings([]string{"4 bytes downloaded..."}))
+						Ω(ui.Outputs).To(ContainSubstrings([]string{"bytes downloaded..."}))
 						Ω(ui.Outputs).To(ContainSubstrings([]string{"FAILED"}))
 						Ω(ui.Outputs).To(ContainSubstrings([]string{"Installing plugin"}))
 					})
