@@ -1,0 +1,12 @@
+---
+platform: windows
+
+params:
+  CF_EXE_NAME: cf-windows-amd64.exe
+
+inputs:
+  - name: cf-cli
+    path: gopath/src/github.com/cloudfoundry/cli
+
+run:
+  path: gopath/src/github.com/cloudfoundry/cli/bin/test.bat

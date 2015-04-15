@@ -184,7 +184,11 @@ var _ = Describe("Install", func() {
 
 					BeforeEach(func() {
 						h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-							fmt.Fprintln(w, "abc")
+							file, err := ioutil.ReadFile(test_1)
+							Ω(err).ShouldNot(HaveOccurred())
+
+							_, err = w.Write(file)
+							Ω(err).ShouldNot(HaveOccurred())
 						})
 
 						testServer = httptest.NewServer(h)
