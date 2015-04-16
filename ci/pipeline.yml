@@ -1,0 +1,26 @@
+---
+resources:
+- name: cf-cli
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cli
+    branch: concourse
+
+jobs:
+- name: linux64-unit
+  plan:
+  - get: cf-cli
+  - task: unit-tests
+    file: cf-cli/ci/unit.linux.yml
+
+- name: darwin64-unit 
+  plan:
+  - get: cf-cli
+  - task: unit-tests
+    file: cf-cli/ci/unit.darwin.yml
+
+- name: win64-unit
+  plan:
+  - get: cf-cli
+  - task: unit-tests
+    file: cf-cli/ci/unit.windows.yml
