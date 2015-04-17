@@ -6,6 +6,19 @@ resources:
     uri: https://github.com/cloudfoundry/cli
     branch: concourse
 
+- name: cli-ci
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/cli-ci.git
+    branch: concourse
+    private_key: {{ci-repo-private-key}}
+
+- name: cf-lite
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-lite.git
+    branch: master
+
 jobs:
 - name: linux64-unit
   plan:
@@ -13,7 +26,7 @@ jobs:
   - task: unit-tests
     file: cf-cli/ci/unit.linux.yml
 
-- name: darwin64-unit 
+- name: darwin64-unit
   plan:
   - get: cf-cli
   - task: unit-tests
@@ -24,3 +37,31 @@ jobs:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.windows.yml
+
+- name: linux64-acceptance
+  plan:
+  - get: cf-cli
+    passed: [linux64-unit]
+    trigger: false
+  - task: acceptance
+    file: cf-cli/ci/CATS.GATS.linux.yml
+    config:
+      params:
+        BOSH_LITE_IP: {{bosh-lite-ip}}
+
+- name: provision
+  serial: true
+  plan:
+  - aggregate:
+    - get: cli-ci
+      trigger: false
+    - get: cf-lite
+      trigger: false
+  - task: build
+    privileged: true
+    file: cli-ci/concourse/lite/provision-cf-lite.yml
+  - conditions: [success, failure]
+    put: cli-ci
+    params:
+      repository: build/cli-ci
+      rebase: true
