@@ -8,8 +8,7 @@ params:
 inputs:
   - name: cf-cli
     path: gopath/src/github.com/cloudfoundry/cli
-  - name: CATS
-    path: gopath/src/github.com/cloudfoundry/cf-acceptance-tests
+  - name: cli-ci
 
 run:
   path: sh
@@ -21,7 +20,7 @@ run:
     export GOPATH=$PWD/gopath
     export PATH=$GOPATH/bin:$PATH
 
-    cd $GOPATH/src/github.com/cloudfoundry/cli-ci/ci/unix
+    cd cli-ci/ci/unix
     #run script to read and set credentials
-    ./setup-concourse-env
-    ./herd-cats-linux64
+    source setup-concourse-env
+    ./herd-cats-linux64-concourse
