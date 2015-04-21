@@ -9,4 +9,4 @@ inputs:
     path: gopath/src/github.com/cloudfoundry/cli
 
 run:
-  path: gopath/src/github.com/cloudfoundry/cli/bin/test.bat
+  path: gopath/src/github.com/cloudfoundry/cli/bin/win_test.bat

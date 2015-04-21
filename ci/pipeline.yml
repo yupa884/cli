@@ -57,6 +57,7 @@ jobs:
     file: cf-cli/ci/unit.windows.yml
 
 - name: linux64-cats
+  serial: true
   plan:
   - aggregate:
     - get: cf-cli
@@ -76,6 +77,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip}}
 
 - name: linux64-gats
+  serial: true
   plan:
   - aggregate:
     - get: cf-cli
