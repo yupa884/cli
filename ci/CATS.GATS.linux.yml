@@ -11,7 +11,7 @@ inputs:
   - name: cli-ci
 
 run:
-  path: sh
+  path: bash
   args:
   - -c
   - |
