@@ -44,6 +44,12 @@ jobs:
   - task: unit-tests
     file: cf-cli/ci/unit.linux.yml
 
+- name: linux32-unit
+  plan:
+  - get: cf-cli
+  - task: unit-tests
+    file: cf-cli/ci/unit.linux32.yml
+
 - name: darwin64-unit
   plan:
   - get: cf-cli
