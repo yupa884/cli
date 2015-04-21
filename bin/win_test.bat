@@ -17,4 +17,4 @@ go build -v -o %CF_EXE_NAME% ./main || exit /b 1
 
 go install github.com/onsi/ginkgo/ginkgo || exit /b 1
 
-ginkgo -cover -nodes 4 -v -r ./cf ./generic ./testhelpers ./main
+ginkgo -cover -v -r ./cf ./generic ./testhelpers ./main
