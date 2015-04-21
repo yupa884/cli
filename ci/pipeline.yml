@@ -55,10 +55,10 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [linux64-unit]
-      trigger: false
     - get: cli-ci
       trigger: false
     - get: cf-release
+      trigger: false
       passed: [provision]
       params:
         submodules:
