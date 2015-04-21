@@ -31,6 +31,12 @@ resources:
     uri: https://github.com/cloudfoundry/bosh-lite.git
     branch: master
 
+- name: gats
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf-experimental/GATS
+    branch: master
+
 jobs:
 - name: linux64-unit
   plan:
@@ -50,7 +56,7 @@ jobs:
   - task: unit-tests
     file: cf-cli/ci/unit.windows.yml
 
-- name: linux64-acceptance
+- name: linux64-cats
   plan:
   - aggregate:
     - get: cf-cli
@@ -63,8 +69,22 @@ jobs:
       params:
         submodules:
           - src/acceptance-tests
-  - task: acceptance
+  - task: cats
     file: cf-cli/ci/cats.linux.yml
+    config:
+      params:
+        BOSH_LITE_IP: {{bosh-lite-ip}}
+
+- name: linux64-gats
+  plan:
+  - aggregate:
+    - get: cf-cli
+      passed: [linux64-unit]
+    - get: cli-ci
+      trigger: false
+    - get: gats
+  - task: gats
+    file: cf-cli/ci/gats.linux.yml
     config:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip}}
