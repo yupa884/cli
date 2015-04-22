@@ -9,6 +9,7 @@ groups:
   - win32-unit
   - linux64-gats
   - linux64-cats
+  - win64-cats
 - name: bosh-lite
   jobs: [provision-linux, provision-windows]
 - name: concourse
@@ -138,7 +139,7 @@ jobs:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
-- name: windows64-cats
+- name: win64-cats
   serial_groups: [bosh-lite-windows]
   plan:
   - aggregate:
@@ -158,7 +159,7 @@ jobs:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
 
-# - name: windows64-gats
+# - name: win64-gats
 #   serial_groups: [bosh-lite-windows]
 #   plan:
 #   - aggregate:
