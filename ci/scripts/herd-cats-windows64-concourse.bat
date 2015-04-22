@@ -2,8 +2,10 @@ SET CF_RAISE_ERROR_ON_WARNINGS=true
 
 SET CONFIG_DIR=%CD%
 
-SET GOPATH=%CD%/gopath
-SET PATH=%GOPATH%/bin;%PATH%
+SET BASE_GOPATH=%CD%\gopath
+
+SET GOPATH=%CD%\gopath
+SET PATH=%GOPATH%\bin;%PATH%
 SET CF_RELEASE_DIR=%CD%/cf-release
 
 SET API_ENDPOINT=https://api.%BOSH_LITE_IP%.xip.io
@@ -27,7 +29,10 @@ MOVE .\cf-release\src\acceptance-tests %CATSPATH%
 MKDIR %CATSPATH%\bin
 
 cd gopath\src\github.com\cloudfoundry\cli
+SET ORIGINAL_GOPATH=%GOPATH%
+SET GOPATH=%BASE_GOPATH%;%CD%\Godeps\_workspace
 go build -v -o %CATSPATH%/bin/cf.exe ./main || exit /b 1
+SET GOPATH=%ORIGINAL_GOPATH%
 cd %CONFIG_DIR%
 
 SET CATS_DEPS_GOPATH=%CATSPATH%\Godeps\_workspace
