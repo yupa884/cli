@@ -10,6 +10,8 @@ groups:
   - linux64-cats
 - name: bosh-lite
   jobs: [provision]
+- name: concourse
+  jobs: [deploy-concourse]
 
 resources:
 - name: cf-cli
@@ -49,6 +51,26 @@ resources:
     uri: https://github.com/pivotal-cf-experimental/GATS
     branch: master
 
+- name: concourse-deployment
+  type: bosh-deployment
+  source:
+    target: {{concourse-bosh-target}}
+    username: {{concourse-bosh-username}}
+    password: {{concourse-bosh-password}}
+    deployment: concourse
+    ignore_ssl: true
+
+- name: concourse
+  type: github-release
+  source:
+    user: concourse
+    repository: concourse
+
+- name: aws-stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+
 jobs:
 - name: linux64-unit
   plan:
@@ -75,7 +97,7 @@ jobs:
     file: cf-cli/ci/unit.windows.yml
 
 - name: linux64-cats
-  serial: true
+  serial_groups: [bosh-lite]
   plan:
   - aggregate:
     - get: cf-cli
@@ -95,7 +117,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip}}
 
 - name: linux64-gats
-  serial: true
+  serial_groups: [bosh-lite]
   plan:
   - aggregate:
     - get: cf-cli
@@ -129,3 +151,22 @@ jobs:
     params:
       repository: build/cli-ci
       rebase: true
+
+- name: deploy-concourse
+  serial: true
+  plan:
+  - aggregate:
+    - get: concourse
+      trigger: false
+    - get: cli-ci
+      trigger: false
+    - get: aws-stemcell
+      trigger: false
+  - put: concourse-deployment
+    params:
+      manifest: cli-ci/ci/aws-vpc.yml
+      releases:
+      - concourse/concourse-*.tgz
+      - concourse/garden-linux-*.tgz
+      stemcells:
+      - aws-stemcell/*.tgz
