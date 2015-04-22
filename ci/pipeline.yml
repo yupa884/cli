@@ -10,7 +10,7 @@ groups:
   - linux64-gats
   - linux64-cats
 - name: bosh-lite
-  jobs: [provision]
+  jobs: [provision-linux, provision-windows]
 - name: concourse
   jobs: [deploy-concourse]
 
@@ -113,7 +113,7 @@ jobs:
       trigger: false
     - get: cf-release
       trigger: false
-      passed: [provision]
+      passed: [provision-linux]
       params:
         submodules:
           - src/acceptance-tests
@@ -121,7 +121,7 @@ jobs:
     file: cf-cli/ci/cats.linux.yml
     config:
       params:
-        BOSH_LITE_IP: {{bosh-lite-ip}}
+        BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
 - name: linux64-gats
   serial_groups: [bosh-lite]
@@ -136,9 +136,9 @@ jobs:
     file: cf-cli/ci/gats.linux.yml
     config:
       params:
-        BOSH_LITE_IP: {{bosh-lite-ip}}
+        BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
-- name: provision
+- name: provision-linux
   serial: true
   plan:
   - aggregate:
@@ -150,9 +150,40 @@ jobs:
         submodules: none
     - get: bosh-lite
       trigger: false
-  - task: build
+  - task: provision
     privileged: true
     file: cli-ci/concourse/lite/provision-cf-lite.yml
+    config:
+      params:
+        AWS_ACCESS_KEY_ID: {{lite-access-key-id}}
+        AWS_SECRET_ACCESS_KEY: {{lite-secret-access-key}}
+        LITE_NAME: linux
+  - conditions: [success, failure]
+    put: cli-ci
+    params:
+      repository: build/cli-ci
+      rebase: true
+
+- name: provision-windows
+  serial: true
+  plan:
+  - aggregate:
+    - get: cli-ci
+      trigger: false
+    - get: cf-release
+      trigger: false
+      params:
+        submodules: none
+    - get: bosh-lite
+      trigger: false
+  - task: provision
+    privileged: true
+    file: cli-ci/concourse/lite/provision-cf-lite.yml
+    config:
+      params:
+        AWS_ACCESS_KEY_ID: {{lite-access-key-id}}
+        AWS_SECRET_ACCESS_KEY: {{lite-secret-access-key}}
+        LITE_NAME: windows
   - conditions: [success, failure]
     put: cli-ci
     params:
