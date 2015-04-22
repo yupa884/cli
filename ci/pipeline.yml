@@ -196,7 +196,7 @@ jobs:
   - conditions: [success, failure]
     put: cli-ci
     params:
-      repository: build/cli-ci
+      repository: provision/cli-ci
       rebase: true
 
 - name: provision-windows
@@ -222,7 +222,7 @@ jobs:
   - conditions: [success, failure]
     put: cli-ci
     params:
-      repository: build/cli-ci
+      repository: provision/cli-ci
       rebase: true
 
 - name: deploy-concourse
