@@ -104,7 +104,7 @@ jobs:
     file: cf-cli/ci/unit.windows.yml
 
 - name: linux64-cats
-  serial_groups: [bosh-lite]
+  serial_groups: [bosh-lite-linux]
   plan:
   - aggregate:
     - get: cf-cli
@@ -124,7 +124,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
 - name: linux64-gats
-  serial_groups: [bosh-lite]
+  serial_groups: [bosh-lite-linux]
   plan:
   - aggregate:
     - get: cf-cli
@@ -138,6 +138,41 @@ jobs:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
+- name: windows64-cats
+  serial_groups: [bosh-lite-windows]
+  plan:
+  - aggregate:
+    - get: cf-cli
+      passed: [windows64-unit]
+    - get: cli-ci
+      trigger: false
+    - get: cf-release
+      trigger: false
+      passed: [provision-windows]
+      params:
+        submodules:
+          - src/acceptance-tests
+  - task: cats
+    file: cf-cli/ci/cats.windows.yml
+    config:
+      params:
+        BOSH_LITE_IP: {{bosh-lite-ip-windows}}
+
+# - name: windows64-gats
+#   serial_groups: [bosh-lite-windows]
+#   plan:
+#   - aggregate:
+#     - get: cf-cli
+#       passed: [windows64-unit]
+#     - get: cli-ci
+#       trigger: false
+#     - get: gats
+#   - task: gats
+#     file: cf-cli/ci/gats.windows.yml
+#     config:
+#       params:
+#         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
+#
 - name: provision-linux
   serial: true
   plan:
