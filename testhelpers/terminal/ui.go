@@ -118,7 +118,7 @@ func (ui *FakeUI) Ok() {
 func (ui *FakeUI) Failed(message string, args ...interface{}) {
 	ui.Say("FAILED")
 	ui.Say(message, args...)
-	panic(QuietPanic)
+	panic(fmt.Sprintf("%s: %s %v", QuietPanic, message, args))
 }
 
 func (ui *FakeUI) FailWithUsage(context *cli.Context) {
