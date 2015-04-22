@@ -6,6 +6,7 @@ groups:
   - linux32-unit
   - darwin64-unit
   - win64-unit
+  - win32-unit
   - linux64-gats
   - linux64-cats
 - name: bosh-lite
@@ -89,6 +90,12 @@ jobs:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.darwin.yml
+
+- name: win32-unit
+  plan:
+  - get: cf-cli
+  - task: unit-tests
+    file: cf-cli/ci/unit.windows32.yml
 
 - name: win64-unit
   plan:
