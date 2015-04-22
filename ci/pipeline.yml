@@ -1,4 +1,16 @@
 ---
+groups:
+- name: cli
+  jobs:
+  - linux64-unit
+  - linux32-unit
+  - darwin64-unit
+  - win64-unit
+  - linux64-gats
+  - linux64-cats
+- name: bosh-lite
+  jobs: [provision]
+
 resources:
 - name: cf-cli
   type: git

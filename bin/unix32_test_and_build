@@ -4,4 +4,4 @@ export PATH=$PATH:$GOPATH/bin
 cd $GOPATH/src/github.com/cloudfoundry/cli
 bin/replace-sha
 bin/test -cover
-mv out/cf $1
+mv out/cf-linux-386 $1
