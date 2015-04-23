@@ -8,9 +8,8 @@ params:
 inputs:
   - name: cf-cli
     path: gopath/src/github.com/cloudfoundry/cli
-  - name: cli-ci
   - name: gats
     path: gopath/src/github.com/pivotal-cf-experimental/GATS
 
 run:
-  path: cli-ci/ci/unix/unix-gats-concourse
+  path: cf-cli/ci/scripts/unix-gats-concourse

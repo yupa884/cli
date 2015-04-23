@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+set -e -x
+
+export CF_RAISE_ERROR_ON_WARNINGS=true
+
+export CONFIG_DIR=${PWD}
+
+export GOPATH=${PWD}/gopath
+export PATH=${GOPATH}/bin:${PATH}
+export CF_RELEASE_DIR=${PWD}/cf-release
+
+export API_ENDPOINT="https://api.${BOSH_LITE_IP}.xip.io"
+export API="https://api.${BOSH_LITE_IP}.xip.io"
+export APPS_DOMAIN="${BOSH_LITE_IP}.xip.io"
+export CC_HOSTNAME="api.${BOSH_LITE_IP}.xip.io"
+export BOSH_LITE_HOSTNAME="ubuntu@${BOSH_LITE_IP}"
+
+ADMIN_USER="admin" ADMIN_PASSWORD="admin" \
+  CF_USER="user" CF_PASSWORD="userpassword" \
+  CF_ORG="cli-cats-org" CF_SPACE="cli-cats-space" \
+  cli-ci/ci/unix/create-cats-config
+
+go get -u github.com/tools/godep
+
+export CATSPATH=${GOPATH}/src/github.com/cloudfoundry/cf-acceptance-tests
+export CATS_GOPATH=${CATSPATH}/Godeps/_workspace
+
+# move cats into gopath
+mkdir -p ${CATSPATH}
+cp -r ${CF_RELEASE_DIR}/src/acceptance-tests/* ${CATSPATH}
+
+# build cf cli
+pushd ${GOPATH}/src/github.com/cloudfoundry/cli
+  ./bin/generate-language-resources
+  godep go build -o ${CATS_GOPATH}/bin/cf github.com/cloudfoundry/cli/main
+popd
+
+export GOPATH=${CATS_GOPATH}:${GOPATH}
+export PATH=${CATS_GOPATH}/bin:${PATH}
+
+# run cats
+pushd ${CATSPATH}
+  go install github.com/onsi/ginkgo/ginkgo
+
+  echo "CATS STRAPPED WITH GATS"
+
+  CONFIG=${CONFIG_DIR}/config.json \
+    ginkgo \
+    -r \
+    -slowSpecThreshold=120 \
+    -skipPackage='logging,services,v3' \
+    -skip="go makes the app reachable via its bound route|SSO|takes effect after a restart, not requiring a push|doesn't die when printing 32MB"
+popd
