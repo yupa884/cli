@@ -9,7 +9,7 @@ inputs:
   - name: cf-cli
   - name: gats
     path: gopath/src/github.com/pivotal-cf-experimental/GATS
-  - name: linx64-binary
+  - name: linux64-binary
 
 run:
   path: cf-cli/ci/scripts/unix-gats-concourse
