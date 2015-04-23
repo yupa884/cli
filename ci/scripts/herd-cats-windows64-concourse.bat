@@ -63,4 +63,4 @@ cd %CATSPATH%
 
 go install github.com/onsi/ginkgo/ginkgo || exit /b 1
 
-ginkgo -r -slowSpecThreshold=120 -skipPackage="logging,services,v3" -skip="go makes the app reachable via its bound route|SSO|takes effect after a restart, not requiring a push|doesn't die when printing 32MB|exercises basic loggregator|firehose data"
+ginkgo -r -slowSpecThreshold=120 -skipPackage="logging,services,v3" -skip="go makes the app reachable via its bound route|SSO|takes effect after a restart, not requiring a push|doesn't die when printing 32MB|exercises basic loggregator|firehose data|transparently proxies both reserved characters and unsafe characters"
