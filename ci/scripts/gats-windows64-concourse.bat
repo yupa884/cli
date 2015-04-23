@@ -1,11 +1,9 @@
-set CF_RAISE_ERROR_ON_WARNINGS=true
-
-set CONFIG_DIR=%CD%
+set BASE_DIR=%CD%
 
 set BASE_GOPATH=%CD%\gopath
 
-set GOPATH=%CD%\gopath
-set PATH=%GOPATH%\bin;%PATH%
+set GOPATH=%BASE_GOPATH%
+set PATH=%BASE_GOPATH%\bin;%PATH%
 
 set API_ENDPOINT=https://api.%BOSH_LITE_IP%.xip.io
 set APPS_DOMAIN=%BOSH_LITE_IP%.xip.io
@@ -16,7 +14,7 @@ set CF_PASSWORD=userpassword
 set CF_ORG=cli-cats-org
 set CF_SPACE=cli-cats-space
 
-set CONFIG=%CONFIG_DIR%\config.json
+set CONFIG=%BASE_DIR%\config.json
 
 echo {> %CONFIG%
 echo "api": "%API_ENDPOINT%",>> %CONFIG%
@@ -35,11 +33,9 @@ echo "long_curl_timeout": 210,>> %CONFIG%
 echo "broker_start_timeout": 330>> %CONFIG%
 echo }>> %CONFIG%
 
-mkdir %GOPATH%\src\github.com\cloudfoundry
-set CATSPATH=%GOPATH%\src\github.com\cloudfoundry\cf-acceptance-tests
-move .\cf-release\src\acceptance-tests %CATSPATH%
+set GATSPATH=%CD%\gopath\src\github.com\pivotal-cf-experimental\GATS
 
-mkdir %CATSPATH%\bin
+mkdir %BASE_GOPATH%\bin
 
 cd gopath\src\github.com\cloudfoundry\cli
 
@@ -49,18 +45,18 @@ set GOPATH=%BASE_GOPATH%;%CD%\Godeps\_workspace
 go get github.com/jteeuwen/go-bindata/... || exit /b 1
 go-bindata -pkg resources -ignore ".go" -o cf/resources/i18n_resources.go cf/i18n/resources/... cf/i18n/test_fixtures/... || exit /b 1
 
-go build -v -o %CATSPATH%\bin\cf.exe ./main || exit /b 1
+go build -v -o %BASE_GOPATH%\bin\cf.exe ./main || exit /b 1
 
 set GOPATH=%ORIGINAL_GOPATH%
-cd %CONFIG_DIR%
+cd %BASE_DIR%
 
-set CATS_DEPS_GOPATH=%CATSPATH%\Godeps\_workspace
+set GATS_DEPS_GOPATH=%GATSPATH%\Godeps\_workspace
 
-set GOPATH=%CATS_DEPS_GOPATH%;%GOPATH%
-set PATH=%CATS_DEPS_GOPATH%\bin;%CATSPATH%\bin;%PATH%
+set GOPATH=%GATS_DEPS_GOPATH%;%GOPATH%
+set PATH=%GATS_DEPS_GOPATH%\bin;%PATH%;%GATSPATH%;C:\Program Files\cURL\bin
 
-cd %CATSPATH%
+cd %GATSPATH%
 
 go install github.com/onsi/ginkgo/ginkgo || exit /b 1
 
-ginkgo -r -slowSpecThreshold=120 -skipPackage="logging,services,v3" -skip="go makes the app reachable via its bound route|SSO|takes effect after a restart, not requiring a push|doesn't die when printing 32MB|exercises basic loggregator|firehose data"
+ginkgo -r -slowSpecThreshold=120 ./gats
