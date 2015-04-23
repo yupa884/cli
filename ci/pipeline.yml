@@ -10,6 +10,7 @@ groups:
   - linux64-gats
   - linux64-cats
   - win64-cats
+  - win64-gats
 - name: bosh-lite
   jobs: [provision-linux, provision-windows]
 - name: concourse
