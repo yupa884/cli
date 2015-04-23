@@ -23,8 +23,6 @@ ADMIN_USER="admin" ADMIN_PASSWORD="admin" \
   CF_ORG="cli-cats-org" CF_SPACE="cli-cats-space" \
   ${CLI_DIR}/ci/scripts/create-cats-config
 
-go get -u github.com/tools/godep
-
 export CATSPATH=${GOPATH}/src/github.com/cloudfoundry/cf-acceptance-tests
 export CATS_GOPATH=${CATSPATH}/Godeps/_workspace
 
@@ -32,14 +30,11 @@ export CATS_GOPATH=${CATSPATH}/Godeps/_workspace
 mkdir -p ${CATSPATH}
 cp -r ${CF_RELEASE_DIR}/src/acceptance-tests/* ${CATSPATH}
 
-# build cf cli
-pushd ${GOPATH}/src/github.com/cloudfoundry/cli
-  ./bin/generate-language-resources
-  godep go build -o ${CATS_GOPATH}/bin/cf github.com/cloudfoundry/cli/main
-popd
-
 export GOPATH=${CATS_GOPATH}:${GOPATH}
 export PATH=${CATS_GOPATH}/bin:${PATH}
+
+# add prebuilt cf cli to the $PATH
+mv linux64-binary/cf-* ${CATS_GOPATH}/bin/cf
 
 # run cats
 pushd ${CATSPATH}

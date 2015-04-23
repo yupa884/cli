@@ -38,11 +38,8 @@ GATS_GOPATH=${GATSPATH}/Godeps/_workspace
 export GOPATH=${GATS_GOPATH}:$GOPATH
 export PATH=${GATS_GOPATH}/bin:$PATH
 
-# build cf cli
-pushd gopath/src/github.com/cloudfoundry/cli
-  ./bin/generate-language-resources
-  GOPATH=$PWD/Godeps/_workspace:$GOPATH go build -o ${GATS_GOPATH}/bin/cf github.com/cloudfoundry/cli/main
-popd
+# add prebuilt cf cli to the $PATH
+mv linux64-binary/cf-* ${GATS_GOPATH}/bin/cf
 
 cd $GATSPATH
 

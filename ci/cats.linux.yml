@@ -7,8 +7,8 @@ params:
 
 inputs:
   - name: cf-cli
-    path: gopath/src/github.com/cloudfoundry/cli
   - name: cf-release
+  - name: linux64-binary
 
 run:
-  path: gopath/src/github.com/cloudfoundry/cli/ci/scripts/herd-cats-linux64-concourse
+  path: cf-cli/ci/scripts/herd-cats-linux64-concourse
