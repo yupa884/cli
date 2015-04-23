@@ -34,7 +34,8 @@ export GOPATH=${CATS_GOPATH}:${GOPATH}
 export PATH=${CATS_GOPATH}/bin:${PATH}
 
 # add prebuilt cf cli to the $PATH
-mv linux64-binary/cf-* ${CATS_GOPATH}/bin/cf
+mkdir ${GATS_GOPATH}/bin
+install linux64-binary/cf-* ${GATS_GOPATH}/bin/cf
 
 # run cats
 pushd ${CATSPATH}
