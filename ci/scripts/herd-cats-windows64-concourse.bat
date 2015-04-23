@@ -41,18 +41,7 @@ move .\cf-release\src\acceptance-tests %CATSPATH%
 
 mkdir %CATSPATH%\bin
 
-cd gopath\src\github.com\cloudfoundry\cli
-
-set ORIGINAL_GOPATH=%GOPATH%
-set GOPATH=%BASE_GOPATH%;%CD%\Godeps\_workspace
-
-go get github.com/jteeuwen/go-bindata/... || exit /b 1
-go-bindata -pkg resources -ignore ".go" -o cf/resources/i18n_resources.go cf/i18n/resources/... cf/i18n/test_fixtures/... || exit /b 1
-
-go build -v -o %CATSPATH%\bin\cf.exe ./main || exit /b 1
-
-set GOPATH=%ORIGINAL_GOPATH%
-cd %CONFIG_DIR%
+move .\windows64-binary\cf* %CATSPATH%\bin\cf.exe || exit /b 1
 
 set CATS_DEPS_GOPATH=%CATSPATH%\Godeps\_workspace
 

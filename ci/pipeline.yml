@@ -2,6 +2,7 @@
 groups:
 - name: cli
   jobs:
+  - rc
   - linux64-unit
   - linux32-unit
   - darwin64-unit
@@ -75,41 +76,126 @@ resources:
   source:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
 
+- name: version
+  type: semver
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    key: current-version
+    initial_version: 6.11.1
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
+- name: linux64-binary
+  type: s3
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    regexp: cf-linux64-(.*)
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
+- name: linux32-binary
+  type: s3
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    regexp: cf-linux32-(.*)
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
+- name: windows64-binary
+  type: s3
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    regexp: cf-windows64-(.*).exe
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
+- name: windows32-binary
+  type: s3
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    regexp: cf-windows32-(.*).exe
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
+- name: darwin64-binary
+  type: s3
+  source:
+    bucket: cf-cli-pipeline-artifacts
+    regexp: cf-darwin64-(.*)
+    access_key_id: {{pipeline-bucket-access-key-id}}
+    secret_access_key: {{pipeline-bucket-secret-access-key}}
+
 jobs:
+- name: rc
+  serial: true
+  plan:
+  - aggregate:
+    - get: cf-cli
+    - get: version
+      trigger: false
+      params: {pre: plus}
+  - put: version
+    params: {file: version/number}
+
 - name: linux64-unit
   public: true
   plan:
   - get: cf-cli
+    passed: [rc]
+  - get: version
+    passed: [rc]
   - task: unit-tests
     file: cf-cli/ci/unit.linux.yml
+  - put: linux64-binary
+    params: {from: unit-tests/cf-linux64-.*}
 
 - name: linux32-unit
   public: true
   plan:
   - get: cf-cli
+    passed: [rc]
+  - get: version
+    passed: [rc]
   - task: unit-tests
     file: cf-cli/ci/unit.linux32.yml
+  - put: linux32-binary
+    params: {from: unit-tests/cf-linux32-.*}
 
 - name: darwin64-unit
   public: true
   plan:
   - get: cf-cli
+    passed: [rc]
+  - get: version
+    passed: [rc]
   - task: unit-tests
     file: cf-cli/ci/unit.darwin.yml
+  - put: darwin64-binary
+    params: {from: unit-tests/cf-darwin64-.*}
 
 - name: win32-unit
   public: true
   plan:
   - get: cf-cli
+    passed: [rc]
+  - get: version
+    passed: [rc]
   - task: unit-tests
     file: cf-cli/ci/unit.windows32.yml
+  - put: windows32-binary
+    params: {from: unit-tests/cf-windows32-.*}
 
 - name: win64-unit
   public: true
   plan:
   - get: cf-cli
+    passed: [rc]
+  - get: version
+    passed: [rc]
   - task: unit-tests
     file: cf-cli/ci/unit.windows.yml
+  - put: windows64-binary
+    params: {from: unit-tests/cf-windows64-.*}
 
 - name: linux64-cats
   public: true
@@ -117,6 +203,8 @@ jobs:
   plan:
   - aggregate:
     - get: cf-cli
+      passed: [linux64-unit]
+    - get: linux64-binary
       passed: [linux64-unit]
     - get: cf-release
       trigger: false
@@ -137,6 +225,8 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [linux64-unit]
+    - get: linux64-binary
+      passed: [linux64-unit]
     - get: gats
   - task: gats
     file: cf-cli/ci/gats.linux.yml
@@ -150,6 +240,8 @@ jobs:
   plan:
   - aggregate:
     - get: cf-cli
+      passed: [win64-unit]
+    - get: windows64-binary
       passed: [win64-unit]
     - get: cf-release
       trigger: false
@@ -170,6 +262,8 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [win64-unit]
+    - get: windows64-binary
+      passed: [win64-unit]
     - get: gats
   - task: gats
     file: cf-cli/ci/gats.windows.yml
@@ -183,6 +277,8 @@ jobs:
   plan:
   - aggregate:
     - get: cf-cli
+      passed: [win64-unit]
+    - get: windows64-binary
       passed: [win64-unit]
     - get: gats
   - task: gats

@@ -2,11 +2,13 @@
 platform: windows32
 
 params:
-  CF_EXE_NAME: cf-windows-386.exe
+  CF_EXE_NAME: cf.exe
+  BITS: 32
 
 inputs:
   - name: cf-cli
     path: gopath/src/github.com/cloudfoundry/cli
+  - name: version
 
 run:
-  path: gopath/src/github.com/cloudfoundry/cli/bin/win_test.bat
+  path: gopath/src/github.com/cloudfoundry/cli/ci/scripts/windows-unit.bat

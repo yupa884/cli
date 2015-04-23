@@ -36,19 +36,7 @@ echo }>> %CONFIG%
 set GATSPATH=%CD%\gopath\src\github.com\pivotal-cf-experimental\GATS
 
 mkdir %BASE_GOPATH%\bin
-
-cd gopath\src\github.com\cloudfoundry\cli
-
-set ORIGINAL_GOPATH=%GOPATH%
-set GOPATH=%BASE_GOPATH%;%CD%\Godeps\_workspace
-
-go get github.com/jteeuwen/go-bindata/... || exit /b 1
-go-bindata -pkg resources -ignore ".go" -o cf/resources/i18n_resources.go cf/i18n/resources/... cf/i18n/test_fixtures/... || exit /b 1
-
-go build -v -o %BASE_GOPATH%\bin\cf.exe ./main || exit /b 1
-
-set GOPATH=%ORIGINAL_GOPATH%
-cd %BASE_DIR%
+move .\windows64-binary\cf* %BASE_GOPATH%\bin\cf.exe || exit /b 1
 
 set GATS_DEPS_GOPATH=%GATSPATH%\Godeps\_workspace
 
