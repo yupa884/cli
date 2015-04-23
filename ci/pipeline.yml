@@ -112,8 +112,6 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [linux64-unit]
-    - get: cli-ci
-      trigger: false
     - get: cf-release
       trigger: false
       passed: [provision-linux]
@@ -132,8 +130,6 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [linux64-unit]
-    - get: cli-ci
-      trigger: false
     - get: gats
   - task: gats
     file: cf-cli/ci/gats.linux.yml
