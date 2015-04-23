@@ -145,8 +145,6 @@ jobs:
   - aggregate:
     - get: cf-cli
       passed: [win64-unit]
-    - get: cli-ci
-      trigger: false
     - get: cf-release
       trigger: false
       passed: [provision-windows]
@@ -159,21 +157,19 @@ jobs:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
 
-# - name: win64-gats
-#   serial_groups: [bosh-lite-windows]
-#   plan:
-#   - aggregate:
-#     - get: cf-cli
-#       passed: [win64-unit]
-#     - get: cli-ci
-#       trigger: false
-#     - get: gats
-#   - task: gats
-#     file: cf-cli/ci/gats.windows.yml
-#     config:
-#       params:
-#         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
-#
+- name: win64-gats
+  serial_groups: [bosh-lite-windows]
+  plan:
+  - aggregate:
+    - get: cf-cli
+      passed: [win64-unit]
+    - get: gats
+  - task: gats
+    file: cf-cli/ci/gats.windows.yml
+    config:
+      params:
+        BOSH_LITE_IP: {{bosh-lite-ip-windows}}
+
 - name: provision-linux
   serial: true
   plan:
