@@ -12,6 +12,8 @@ trap printStatus EXIT
 
 set -e -x
 
+export CLI_DIR=$(cd $(dirname $0)/../.. && pwd)
+
 export CF_RAISE_ERROR_ON_WARNINGS=true
 
 export CONFIG_DIR=${PWD}
@@ -28,7 +30,7 @@ export BOSH_LITE_HOSTNAME="ubuntu@${BOSH_LITE_IP}"
 ADMIN_USER="admin" ADMIN_PASSWORD="admin" \
   CF_USER="user" CF_PASSWORD="userpassword" \
   CF_ORG="cli-cats-org" CF_SPACE="cli-cats-space" \
-  cli-ci/ci/unix/create-cats-config
+  ${CLI_DIR}/ci/scripts/create-cats-config
 
 GATSPATH=$PWD/gopath/src/github.com/pivotal-cf-experimental/GATS
 GATS_GOPATH=${GATSPATH}/Godeps/_workspace
