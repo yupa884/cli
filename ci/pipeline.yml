@@ -77,36 +77,42 @@ resources:
 
 jobs:
 - name: linux64-unit
+  public: true
   plan:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.linux.yml
 
 - name: linux32-unit
+  public: true
   plan:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.linux32.yml
 
 - name: darwin64-unit
+  public: true
   plan:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.darwin.yml
 
 - name: win32-unit
+  public: true
   plan:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.windows32.yml
 
 - name: win64-unit
+  public: true
   plan:
   - get: cf-cli
   - task: unit-tests
     file: cf-cli/ci/unit.windows.yml
 
 - name: linux64-cats
+  public: true
   serial_groups: [bosh-lite-linux]
   plan:
   - aggregate:
@@ -125,6 +131,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
 - name: linux64-gats
+  public: true
   serial_groups: [bosh-lite-linux]
   plan:
   - aggregate:
@@ -138,6 +145,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip-linux}}
 
 - name: win64-cats
+  public: true
   serial_groups: [bosh-lite-windows]
   plan:
   - aggregate:
@@ -156,6 +164,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
 
 - name: win64-gats
+  public: true
   serial_groups: [bosh-lite-windows]
   plan:
   - aggregate:
@@ -169,6 +178,7 @@ jobs:
         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
 
 - name: win64-gats-french
+  public: true
   serial_groups: [bosh-lite-windows]
   plan:
   - aggregate:
