@@ -5,6 +5,7 @@ image: docker:///cloudfoundry/cli-ci
 inputs:
   - name: cf-cli
     path: gopath/src/github.com/cloudfoundry/cli
+  - name: version
 
 run:
   path: sh
@@ -13,8 +14,13 @@ run:
   - |
     set -e -x
 
+    VERSION=$(cat version/number)
+
     export GOPATH=$PWD/gopath
     export PATH=$GOPATH/bin:$PATH
 
-    cd $GOPATH/src/github.com/cloudfoundry/cli
-    bin/test
+    pushd $GOPATH/src/github.com/cloudfoundry/cli
+      bin/test
+    popd
+
+    mv $GOPATH/src/github.com/cloudfoundry/cli/out/cf ./cf-linux64-$VERSION
