@@ -8,7 +8,7 @@ inputs:
   - name: version
 
 run:
-  path: sh
+  path: bash
   args:
   - -c
   - |
