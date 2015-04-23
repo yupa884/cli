@@ -12,4 +12,4 @@ inputs:
     path: gopath/src/github.com/pivotal-cf-experimental/GATS
 
 run:
-  path: cf-cli/ci/scripts/unix-gats-concourse
+  path: gopath/src/github.com/cloudfoundry/cli/ci/scripts/unix-gats-concourse
