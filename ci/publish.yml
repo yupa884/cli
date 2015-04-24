@@ -9,6 +9,7 @@ params:
 
 inputs:
 - name: cf-cli
+- name: cli-ci
 - name: darwin64-binary
 - name: linux64-binary
 - name: linux32-binary

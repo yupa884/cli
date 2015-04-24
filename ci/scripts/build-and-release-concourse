@@ -7,6 +7,8 @@ mv linux32-binary/cf-* cf-cli/out/cf-linux-386
 mv windows64-binary/cf-* cf-cli/out/cf-windows-amd64.exe
 mv windows32-binary/cf-* cf-cli/out/cf-windows-386.exe
 
+export S3_CONFIG_FILE=${PWD}/cli-ci/ci/s3cfg
+
 cd cf-cli
 
 chmod +x out/cf-darwin-amd64
@@ -17,4 +19,4 @@ chmod +x out/cf-windows-386.exe
 
 ci/scripts/build-installers-gocd
 ci/scripts/tar-executables
-ci/scripts/upload-binaries-gocd
+ci/scripts/upload-binaries-concourse

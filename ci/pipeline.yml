@@ -318,6 +318,8 @@ jobs:
     - get: darwin64-binary
       trigger: false
       passed: [darwin64-unit]
+    - get: cli-ci
+      trigger: false
   - task: publish
     file: cf-cli/ci/publish.yml
     config:
