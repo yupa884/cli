@@ -22,4 +22,4 @@ run:
       bin/unix32_test_and_build cf-linux-386
     popd
 
-    mv $GOPATH/src/github.com/cloudfoundry/cli/out/cf ./cf-linux32-$VERSION
+    mv $GOPATH/src/github.com/cloudfoundry/cli/cf-linux-386 ./cf-linux32-$VERSION
