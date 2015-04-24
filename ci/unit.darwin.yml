@@ -19,8 +19,8 @@ run:
     export GOPATH=$PWD/gopath
     export PATH=$GOPATH/bin:$PATH
 
-    pushd $GOPATH/src/github.com/cloudfoundry/cli
-      bin/test
-    popd
+    OUT=$PWD/cf-darwin64-$VERSION
 
-    mv $GOPATH/src/github.com/cloudfoundry/cli/out/cf ./cf-darwin64-$VERSION
+    cd $GOPATH/src/github.com/cloudfoundry/cli
+
+    bin/unix_test_and_build $OUT

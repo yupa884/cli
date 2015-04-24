@@ -18,8 +18,8 @@ run:
     export GOPATH=$PWD/gopath
     export PATH=$GOPATH/bin:$PATH
 
-    pushd $GOPATH/src/github.com/cloudfoundry/cli
-      bin/unix32_test_and_build cf-linux-386
-    popd
+    OUT=$PWD/cf-linux32-$VERSION
 
-    mv $GOPATH/src/github.com/cloudfoundry/cli/cf-linux-386 ./cf-linux32-$VERSION
+    cd $GOPATH/src/github.com/cloudfoundry/cli
+
+    bin/unix_test_and_build $OUT
