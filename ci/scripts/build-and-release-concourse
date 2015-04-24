@@ -11,6 +11,7 @@ export S3_CONFIG_FILE=${PWD}/cli-ci/ci/s3cfg
 
 cd cf-cli
 
+mkdir out
 chmod +x out/cf-darwin-amd64
 chmod +x out/cf-linux-386
 chmod +x out/cf-linux-amd64
