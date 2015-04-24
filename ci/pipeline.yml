@@ -13,6 +13,7 @@ groups:
   - win64-cats
   - win64-gats
   - win64-gats-french
+  - publish
 - name: bosh-lite
   jobs: [provision-linux, provision-windows]
 - name: concourse
@@ -286,6 +287,43 @@ jobs:
     config:
       params:
         BOSH_LITE_IP: {{bosh-lite-ip-windows}}
+
+- name: publish
+  serial: true
+  plan:
+  - aggregate:
+    - get: cf-cli
+      trigger: false
+      passed:
+      - linux64-cats
+      - linux64-gats
+      - win64-cats
+      - win64-gats
+      - win64-gats-french
+      - darwin64-unit
+      - win32-unit
+      - linux32-unit
+    - get: linux64-binary
+      trigger: false
+      passed: [linux64-unit]
+    - get: linux32-binary
+      trigger: false
+      passed: [linux32-unit]
+    - get: windows64-binary
+      trigger: false
+      passed: [win64-unit]
+    - get: windows32-binary
+      trigger: false
+      passed: [win32-unit]
+    - get: darwin64-binary
+      trigger: false
+      passed: [darwin64-unit]
+  - task: publish
+    file: cf-cli/ci/publish.yml
+    config:
+      params:
+        AWS_ACCESS_KEY_ID: {{publish-access-key-id}}
+        AWS_SECRET_ACCESS_KEY: {{publish-secret-access-key}}
 
 - name: provision-linux
   serial: true

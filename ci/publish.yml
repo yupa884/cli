@@ -1,0 +1,17 @@
+---
+platform: linux
+
+params:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+
+inputs:
+- name: cf-cli
+- name: darwin64-binary
+- name: linux64-binary
+- name: linux32-binary
+- name: windows64-binary
+- name: windows32-binary
+
+run:
+  path: cf-cli/ci/scripts/build-and-release-concourse
