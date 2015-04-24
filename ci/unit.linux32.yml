@@ -13,6 +13,8 @@ run:
   - |
     set -e -x
 
+    VERSION=$(cat version/number)
+
     export GOPATH=$PWD/gopath
     export PATH=$GOPATH/bin:$PATH
 
