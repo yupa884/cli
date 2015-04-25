@@ -314,7 +314,7 @@ jobs:
       passed: [win64-unit]
     - get: windows32-binary
       trigger: false
-      #passed: [win32-unit]
+      passed: [win32-unit]
     - get: darwin64-binary
       trigger: false
       passed: [darwin64-unit]
