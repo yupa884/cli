@@ -303,7 +303,7 @@ var _ = Describe("start command", func() {
 			displayApp := &testcmd.FakeAppDisplayer{}
 			ui, appRepo, _ := startAppWithInstancesAndErrors(displayApp, defaultAppForStart, requirementsFactory)
 
-			Expect(appRepo.ReadCalls).To(Equal(1))
+			Eventually(appRepo.ReadCalls).Should(Equal(1))
 			Expect(ui.Outputs).To(ContainSubstrings(
 				[]string{"App my-app was started using this command `detected start command`"},
 			))
@@ -527,7 +527,7 @@ var _ = Describe("start command", func() {
 
 				ui, _, _ := startAppWithInstancesAndErrors(displayApp, defaultAppForStart, requirementsFactory)
 
-				Expect(ui.Outputs).To(ContainSubstrings(
+				Eventually(ui.Outputs).Should(ContainSubstrings(
 					[]string{"my-app"},
 					[]string{"0 of 2 instances running", "2 starting"},
 					[]string{"0 of 2 instances running", "1 starting (no compatible cell)", "1 down"},
