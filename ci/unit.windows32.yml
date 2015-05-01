@@ -11,4 +11,4 @@ inputs:
   - name: version
 
 run:
-  path: gopath/src/github.com/cloudfoundry/cli/ci/scripts/windows-unit.bat
+  path: gopath/src/github.com/cloudfoundry/cli/ci/scripts/windows32-unit.bat
