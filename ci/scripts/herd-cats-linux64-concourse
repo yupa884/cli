@@ -41,8 +41,6 @@ install linux64-binary/cf-* ${CATS_GOPATH}/bin/cf
 pushd ${CATSPATH}
   go install github.com/onsi/ginkgo/ginkgo
 
-  echo "CATS STRAPPED WITH GATS"
-
   CONFIG=${CONFIG_DIR}/config.json \
     ginkgo \
     -r \
