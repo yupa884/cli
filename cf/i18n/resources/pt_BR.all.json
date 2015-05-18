@@ -4050,6 +4050,11 @@
       "modified": false
    },
    {
+      "id": "Started: {{.Started}}",
+      "translation": "Started: {{.Started}}",
+      "modified": false
+   },
+   {
       "id": "Starting app {{.AppName}} in org {{.OrgName}} / space {{.SpaceName}} as {{.CurrentUser}}...",
       "translation": "Inicializando app {{.AppName}} na org {{.OrgName}} / espaço {{.SpaceName}} como {{.CurrentUser}}...",
       "modified": false
@@ -4267,6 +4272,11 @@
    {
       "id": "UAA endpoint missing from config file",
       "translation": "Terminal UAA ausente em arquivo de configuração",
+      "modified": false
+   },
+   {
+      "id": "Updated: {{.Updated}}",
+      "translation": "Updated: {{.Updated}}",
       "modified": false
    },
    {

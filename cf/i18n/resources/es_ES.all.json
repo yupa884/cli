@@ -4050,6 +4050,11 @@
       "modified": false
    },
    {
+      "id": "Started: {{.Started}}",
+      "translation": "Started: {{.Started}}",
+      "modified": false
+   },
+   {
       "id": "Starting app {{.AppName}} in org {{.OrgName}} / space {{.SpaceName}} as {{.CurrentUser}}...",
       "translation": "Comenzando app {{.AppName}} en la org {{.OrgName}} / space {{.SpaceName}} como {{.CurrentUser}}...",
       "modified": false
@@ -4267,6 +4272,11 @@
    {
       "id": "UAA endpoint missing from config file",
       "translation": "UAA endpoint no esta presente en el config file",
+      "modified": false
+   },
+   {
+      "id": "Updated: {{.Updated}}",
+      "translation": "Updated: {{.Updated}}",
       "modified": false
    },
    {
