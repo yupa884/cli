@@ -11,8 +11,11 @@ VERSION=$(${OUT_DIR}/cf-linux-amd64 -v | cut -d' ' -f 3 | cut -d'-' -f 1)
 # Instructions for installing iscc:
 # https://katastrophos.net/andre/blog/2009/03/16/setting-up-the-inno-setup-compiler-on-debian/
 #
-# forward X11 ports when installing 'Inno Setup' on the linux vm where the gocd agent runs
-#   $ ssh -X -i id_rsa.pem ubuntu@x.x.x.x'
+# To install ispack-5.2.3.exe, Start socat to expose local xquartz socket on a TCP port
+# socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"
+#More--
+# Pass the display to container (assuming virtualbox host is available on 192.168.59.3):
+# docker run -it -e DISPLAY=192.168.59.3:0 cloudfoundry/cli-ci /bin/bash
 
 echo "building windows-386 installer"
 pushd ${INSTALLERS_DIR}/windows
