@@ -105,7 +105,7 @@ func (cmd *ServiceAccess) Run(c *cli.Context) {
 
 	brokers, err := cmd.actor.FilterBrokers(brokerName, serviceName, orgName)
 	if err != nil {
-		cmd.ui.Failed(T("Failed fetching service brokers.\n{{.Error}}", map[string]interface{}{"Error": err}))
+		cmd.ui.Failed(T("{{.Error}}", map[string]interface{}{"Error": err}))
 		return
 	}
 	cmd.printTable(brokers)
