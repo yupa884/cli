@@ -37,7 +37,8 @@ echo }>> %CONFIG%
 
 mkdir %GOPATH%\src\github.com\cloudfoundry
 set CATSPATH=%GOPATH%\src\github.com\cloudfoundry\cf-acceptance-tests
-move .\cf-release\src\acceptance-tests %CATSPATH%
+::move .\cf-release\src\acceptance-tests %CATSPATH%
+git clone https://github.com/cloudfoundry/cf-acceptance-tests %CATSPATH%
 
 mkdir %CATSPATH%\bin
 

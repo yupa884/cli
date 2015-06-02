@@ -28,8 +28,8 @@ export CATS_GOPATH=${CATSPATH}/Godeps/_workspace
 
 # move cats into gopath
 mkdir -p ${CATSPATH}
-cp -r ${CF_RELEASE_DIR}/src/acceptance-tests/* ${CATSPATH}
-
+#cp -r ${CF_RELEASE_DIR}/src/acceptance-tests/* ${CATSPATH}
+git clone https://github.com/cloudfoundry/cf-acceptance-tests ${CATSPATH}
 export GOPATH=${CATS_GOPATH}:${GOPATH}
 export PATH=${CATS_GOPATH}/bin:${PATH}
 
