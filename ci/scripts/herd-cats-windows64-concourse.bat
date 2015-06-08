@@ -30,7 +30,7 @@ echo "cf_space": "%CF_SPACE%",>> %CONFIG%
 echo "skip_ssl_validation": true,>> %CONFIG%
 echo "persistent_app_host": "persistent-app-win64",>> %CONFIG%
 echo "default_timeout": 120,>> %CONFIG%
-echo "cf_push_timeout": 210,>> %CONFIG%
+echo "cf_push_timeout": 600,>> %CONFIG%
 echo "long_curl_timeout": 210,>> %CONFIG%
 echo "broker_start_timeout": 330>> %CONFIG%
 echo }>> %CONFIG%
