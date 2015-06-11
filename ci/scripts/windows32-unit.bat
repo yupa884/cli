@@ -1,4 +1,4 @@
-echo "MJS IN windowns32-unit.bat 1"
+echo "MJS2 IN windowns32-unit.bat 1"
 set root=%CD%
 
 set /p VERSION=<version\number
